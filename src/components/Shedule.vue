@@ -1,18 +1,18 @@
 <template lang="pug">
   .shedule
-    Note
-    Week.week
+    Notes
+    Weeks.weeks
 </template>
 
 <script>
-import Note from '@/components/Note'
-import Week from '@/components/Week'
+import Notes from '@/components/Notes'
+import Weeks from '@/components/Weeks'
 
 export default {
   name: 'Shedule',
   components: {
-    Note,
-    Week
+    Notes,
+    Weeks
   }
 }
 </script>
@@ -21,7 +21,7 @@ export default {
   .shedule {
     display: flex;
     align-items: center;
-    .week {
+    .weeks {
       margin-left: 50px;
     }
   }

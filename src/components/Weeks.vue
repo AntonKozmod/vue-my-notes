@@ -1,16 +1,16 @@
 <template lang="pug">
-  .week
+  .weeks
 </template>
 
 <script>
 
 export default {
-  name: 'Week',
+  name: 'Weeks',
 }
 </script>
 
 <style lang="scss" scoped>
-  .week {
+  .weeks {
     width: 120px;
     height: 225px;
     background: white;
