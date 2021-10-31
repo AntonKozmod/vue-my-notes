@@ -1,17 +1,17 @@
 <template lang="pug">
   .shedule
-    Notes
+    Todos
     Weeks.weeks
 </template>
 
 <script>
-import Notes from '@/components/Notes'
+import Todos from '@/components/Todos'
 import Weeks from '@/components/Weeks'
 
 export default {
   name: 'Shedule',
   components: {
-    Notes,
+    Todos,
     Weeks
   }
 }
