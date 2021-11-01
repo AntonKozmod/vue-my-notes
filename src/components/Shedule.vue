@@ -1,7 +1,7 @@
 <template lang="pug">
   .shedule
-    Todos
-    Weeks.weeks
+    Todos(:selectedWeek="selectedWeek")
+    Weeks.weeks(v-bind:selectedWeek.sync="selectedWeek")
 </template>
 
 <script>
@@ -10,6 +10,11 @@ import Weeks from '@/components/Weeks'
 
 export default {
   name: 'Shedule',
+  data() {
+    return {
+      selectedWeek: 'пн'
+    }
+  },
   components: {
     Todos,
     Weeks

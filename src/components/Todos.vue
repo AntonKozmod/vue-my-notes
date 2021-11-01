@@ -3,7 +3,7 @@
     .todos__star ❋
     .todos__list
       .todos__list__todo(v-for="todo in todosList" :key="todo.id")
-        .todos__list__todo__time {{ todo.datetime }}
+        .todos__list__todo__time {{ todo.time }}
         .todos__list__todo__text {{ todo.text }}
         button.todos__list__todo__remove(@click.stop="removeTodo(todo.id)")
           span(style="font-size:2rem; line-height:1rem") ×
@@ -18,6 +18,9 @@
 
 export default {
   name: 'Todos',
+  props: {
+    selectedWeek: String
+  },
   data() {
     return {
       time: '',
@@ -26,17 +29,20 @@ export default {
   },
   computed: {
     todosList() {
-      return this.$store.getters.getTodos.sort((a,b) => a.datetime > b.datetime ? 1 : -1)
+      return this.$store.getters.getTodosWeek(this.selectedWeek) ? this.$store.getters.getTodosWeek(this.selectedWeek).sort((a,b) => a.time > b.time ? 1 : -1) : []
     }
   },
   methods: {
     addTodo() {
       if (this.time && this.todo) {
-        this.$store.commit('addTodo', { text: this.todo, datetime: this.time })
+        this.$store.commit('addTodo', { text: this.todo, time: this.time, week: this.selectedWeek })
+        this.time = ''
+        this.todo = ''
       }
     },
-    removeTodo(e) {
-      console.log('remove', e)
+    removeTodo(todoId) {
+      console.log(todoId)
+      this.$store.commit('deleteTodo', todoId)
     }
   }
 }
