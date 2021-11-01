@@ -5,12 +5,12 @@
       .todos__list__todo(v-for="todo in todosList" :key="todo.id")
         .todos__list__todo__time {{ todo.datetime }}
         .todos__list__todo__text {{ todo.text }}
-        .todos__list__todo__remove
+        button.todos__list__todo__remove(@click.stop="removeTodo(todo.id)")
           span(style="font-size:2rem; line-height:1rem") ×
     .todos__input-area
       input.todos__input-area__time(v-model="time" type="time")
       input.todos__input-area__todo(v-model="todo")
-      button.todos__input-area__but-add(@click.stop="onClickButton")
+      button.todos__input-area__but-add(@click.stop="addTodo")
         span(style="font-size:2rem") +
 </template>
 
@@ -26,16 +26,17 @@ export default {
   },
   computed: {
     todosList() {
-      return this.$store.state.todos
+      return this.$store.getters.getTodos.sort((a,b) => a.datetime > b.datetime ? 1 : -1)
     }
   },
   methods: {
-    onClickButton(e) {
-      console.log('onClickButton', e)
-      console.log('datetime', this.time)
+    addTodo() {
       if (this.time && this.todo) {
         this.$store.commit('addTodo', { text: this.todo, datetime: this.time })
       }
+    },
+    removeTodo(e) {
+      console.log('remove', e)
     }
   }
 }
@@ -53,6 +54,7 @@ export default {
     padding-top: 20px;
     display: grid;
     grid: 40px auto 40px / auto;
+    grid-gap: 0.5rem;
 
     &__star {
       grid-row: 1;
@@ -63,30 +65,39 @@ export default {
 
     &__list {
       grid-row: 2;
-      overflow: auto;
+      overflow: hidden;
+      // overflow: auto;
       display: flex;
-      margin: 10px 0;
-      flex-direction: column-reverse;
+      flex-direction: column;
+      justify-content: flex-end;
       &__todo {
         display: flex;
-        height: 30px;
+        height: 32px;
         &__time {
           flex-basis: 80px;
-          line-height: 30px;
+          line-height: 32px;
         }
         &__text {
           flex: 1;
           margin: 0 10px;
           text-align: left;
-          line-height: 30px;
+          line-height: 32px;
           padding-left: 10px;
         }
         &__remove {
           flex-basis: 40px;
           font-size: 2rem;
-          line-height: 30px;
+          line-height: 32px;
+          background: white;
+          border: 0;
           color: gray;
+          &:hover {
+            color: lightgray;
+          }
         }
+      }
+      &__todo_over {
+        color: red;
       }
     }
 
@@ -104,6 +115,14 @@ export default {
         flex-basis: 40px;
         font-size: 2rem;
         padding-top: 2px;
+        height: 40px;
+        color: white;
+        border-radius: 4px;
+        border: 0;
+        background: #4BA9FF;
+        &:hover {
+          background: #6BC9FF;
+        }
       }
     }
   }

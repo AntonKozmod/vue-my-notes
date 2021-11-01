@@ -5,12 +5,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    todos: [{ id: 0, text: 'head', datetime: '' }]
+    todos: localStorage.todos ? JSON.parse(localStorage.todos) : [{ id: 0, text: 'head', datetime: '' }]
   },
   getters: {
     thisTodo: state => todoId => {
 			return state.todos.find(todo => todo.id === todoId);
-		}
+		},
+    getTodos: state => {
+      return state.todos.slice(1)
+    }
   },
   mutations: {
     addTodo: function(state, newTodo) {
@@ -19,7 +22,7 @@ export default new Vuex.Store({
         text: newTodo.text,
         datetime: newTodo.datetime
       })
-      console.log('state.todos', state.todos)
+      localStorage.todos = JSON.stringify(state.todos)
     },
     deleteTodo(state, todoId) {
       let todoIndex = state.todos.indexOf(
@@ -27,7 +30,7 @@ export default new Vuex.Store({
 			);
 			state.todos.splice(todoIndex, 1);
 			delete state.todos[todoIndex].text;
-			console.log(state.todos[todoIndex]);
+      localStorage.todos = JSON.stringify(state.todos)
     }
   },
   actions: {
